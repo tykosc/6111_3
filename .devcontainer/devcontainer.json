@@ -1,0 +1,13 @@
+{
+	"name": "Python Local",
+	"build": {
+		"dockerfile": "Dockerfile",
+	},
+	"hostRequirements": {
+		"memory": "10gb",
+		"storage": "32gb"
+	},
+	"settings": {},
+	"extensions": [],
+	"forwardPorts": [5000,50001,443,8000,8081],
+}
