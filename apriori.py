@@ -1,5 +1,5 @@
 # classes for all implementations of apriori algorithm
-
+# 
 import csv
 from email.policy import default
 import pandas as pd
@@ -31,6 +31,7 @@ class Apriori:
 
         # generate frequent 1-itemsets along with trie representations
         self.freq[1]= self.get_f1_items()
+        print(self.freq)
 
     def get_f1_items(self) -> dict:
 
@@ -85,11 +86,13 @@ class AprioriBase(Apriori):
                     C_k_dict[tup] += 1
             
             for k in C_k.copy():
+                C_k[k] = C_k[k]/len(self.d)
                 if C_k[k] < self.min_sup:
                     del C_k[k]
             
             self.freq[k] = C_k
             k += 1
+        print(self.freq)
 
     def apriori_gen(self, k) -> None:
         '''
@@ -119,6 +122,8 @@ if __name__ == '__main__':
     file = open('./datasets/test_dataset.csv', 'r', newline='')
     file = csv.reader(file)
     abs = AprioriBase(list(file), 0.4, 0.4)
+
+
 
     # run python in interactve mode
     # python -i apriori.py
