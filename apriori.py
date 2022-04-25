@@ -29,24 +29,22 @@ class Apriori:
         self.freq = defaultdict()
 
         # a map of trie data structures to enable fast joins
-        self.ftries = defaultdict()
-        
+        #         
         # generate frequent 1-itemsets along with trie representations
-        self.freq[1], self.ftries[1] = self.get_f1_items()
+        self.freq[1] = self.get_f1_items()
 
     def get_f1_items(self) -> dict:
 
         counts = defaultdict(int)
-
         for txn in self.d:
             for item in txn:
                 counts[(item, )] += 1
 
         # TODO : Check if this is the right way to do it.
         # per Ullman lec - there should be only one pass on the dataset.
-        counts = { x : y for x, y in counts.items if y >= self.min_sup }
+        counts = { x : y for x, y in counts.items() if y/len(self.d) >= self.min_sup }
         counts = OrderedDict(sorted(counts, key = lambda t: t[0]))
-        return counts, counts
+        return counts
 
     def run(self) -> None:
         '''
@@ -75,8 +73,32 @@ class AprioriBase(Apriori):
 
         k = 2
         while len(self.freq[k - 1]) > 0:
-            candidates = self.apriori_gen(k-1)
-        for 
+            C_k = self.apriori_gen(k-1) # new candidates, this is a LIST of sets
+            C_k_dict = defaultdict(int, {tuple(k): 0 for k in C_k}) # dictionary with tuples as keys  
+            for t in self.d:
+                # C_t is a list that contains all items of C_k that are subsets of t
+                C_t = []
+                for s in C_k: 
+                    if s.issubset(t):
+                        C_t.append(s)
+                for c in C_t: 
+                    tup = tuple(c)
+                    C_k_dict[tup] += 1
+            
+            for k in C_k.copy():
+                if C_k[k] < self.min_sup:
+                    del C_k[k]
+            
+            self.freq[k] = C_k
+
+            
+                    
+            
+                
+            
+            
+            
+
 
 
 
@@ -84,8 +106,10 @@ if __name__ == '__main__':
 
     file = open('./datasets/test_dataset.csv', 'r', newline='')
     file = csv.reader(file)
-    abs = Apriori(file, 0.1, 0.2)
+    abs = Apriori(list(file), 0.1, 0.2)
+    print(abs.get_f1_items())
 
     # run python in interactve mode
     # python -i apriori.py
     # >>> abs.freq
+    
