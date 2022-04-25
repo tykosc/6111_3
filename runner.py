@@ -30,5 +30,5 @@ except FileNotFoundError:
 # to be pre-processed
 reader = csv.reader(file)
 
-frequent_itemsets = Apriori(np.array(reader), min_sup, min_conf)
+frequent_itemsets = Apriori(list(reader), min_sup, min_conf)
 
