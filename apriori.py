@@ -4,6 +4,7 @@ import csv
 from email.policy import default
 import pandas as pd
 from pandasql import sqldf
+import itertools
 
 from collections import defaultdict
 from collections import OrderedDict
@@ -84,6 +85,8 @@ class AprioriBase(Apriori):
         l = self.freq[k - 1]
         l = pd.DataFrame(list(l.keys()), columns=[f'c{k}' for k in list(range(1,k))])
 
+        c_k = []
+
         query = 'SELECT '
         for i in range(1,k):
             query += f'l1.c{i},'
@@ -93,11 +96,19 @@ class AprioriBase(Apriori):
         for i in range(1,k-1):
             query += f'l1.c{i} = l2.c{i} AND '
         query += f'l1.c{k-1} < l2.c{k-1}'
-
         q = sqldf(query)
 
+        for _, row in q.iterrows():
+            r = list(itertools.combinations(row,k - 1))
+            rowflag = False
+            for combination in r:
+                if combination not in self.freq[k-1]:
+                    rowflag = True
+            if not rowflag:
+                c_k.append(tuple(row))
 
-
+        print(c_k)
+        return list(c_k)
 
 if __name__ == '__main__':
 
