@@ -2,7 +2,8 @@
 
 import csv
 from email.policy import default
-import numpy as np
+import pandas as pd
+from pandasql import sqldf
 
 from collections import defaultdict
 from collections import OrderedDict
@@ -26,12 +27,10 @@ class Apriori:
         # p = < i, c >; i = (item, ) c = count
         # p is a collection of large k-itemsets
         # i represents a tuple of items (in sorted order)
-        self.freq = defaultdict()
+        self.freq = {0:{}}
 
-        # a map of trie data structures to enable fast joins
-        #         
         # generate frequent 1-itemsets along with trie representations
-        self.freq[1] = self.get_f1_items()
+        self.freq[1]= self.get_f1_items()
 
     def get_f1_items(self) -> dict:
 
@@ -42,8 +41,8 @@ class Apriori:
 
         # TODO : Check if this is the right way to do it.
         # per Ullman lec - there should be only one pass on the dataset.
-        counts = { x : y for x, y in counts.items() if y/len(self.d) >= self.min_sup }
-        counts = OrderedDict(sorted(counts, key = lambda t: t[0]))
+        counts = { x : (y /len(self.d))  for x, y in counts.items() if (y / len(self.d)) >= self.min_sup }
+        counts = OrderedDict(sorted(counts.items(), key = lambda t: t[0]))
         return counts
 
     def run(self) -> None:
@@ -90,14 +89,27 @@ class AprioriBase(Apriori):
                     del C_k[k]
             
             self.freq[k] = C_k
+            k += 1
 
-            
-                    
-            
-                
-            
-            
-            
+    def apriori_gen(self, k) -> None:
+        '''
+        here if k = 1 -> l = {}
+        '''
+        l = {}
+        l = self.freq[k - 1]
+        l = pd.DataFrame(list(l.keys()), columns=[f'c{k}' for k in list(range(1,k))])
+
+        query = 'SELECT '
+        for i in range(1,k):
+            query += f'l1.c{i},'
+        query = query[:-1]
+        query += f',l2.c{k-1}'
+        query += ' FROM l l1, l l2 WHERE '
+        for i in range(1,k-1):
+            query += f'l1.c{i} = l2.c{i} AND '
+        query += f'l1.c{k-1} < l2.c{k-1}'
+
+        q = sqldf(query)
 
 
 
@@ -106,8 +118,7 @@ if __name__ == '__main__':
 
     file = open('./datasets/test_dataset.csv', 'r', newline='')
     file = csv.reader(file)
-    abs = Apriori(list(file), 0.1, 0.2)
-    print(abs.get_f1_items())
+    abs = AprioriBase(list(file), 0.4, 0.4)
 
     # run python in interactve mode
     # python -i apriori.py
