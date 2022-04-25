@@ -74,24 +74,25 @@ class AprioriBase(Apriori):
 
         k = 2
         while len(self.freq[k - 1]) > 0:
-            C_k = self.apriori_gen(k-1) # new candidates, this is a LIST of sets
+            C_k = self.apriori_gen(k) # new candidates, this is a LIST of sets
             C_k_dict = defaultdict(int, {tuple(k): 0 for k in C_k}) # dictionary with tuples as keys  
             for t in self.d:
                 # C_t is a list that contains all items of C_k that are subsets of t
                 C_t = []
+                t = set(t)
                 for s in C_k: 
-                    if s.issubset(t):
+                    if set(s).issubset(t):
                         C_t.append(s)
                 for c in C_t: 
                     tup = tuple(c)
                     C_k_dict[tup] += 1
             
-            for k in C_k.copy():
-                C_k[k] = C_k[k]/len(self.d)
-                if C_k[k] < self.min_sup:
-                    del C_k[k]
+            for key in C_k_dict.copy():
+                C_k_dict[key] = C_k_dict[key]/len(self.d)
+                if C_k_dict[key] < self.min_sup:
+                    del C_k_dict[key]
             
-            self.freq[k] = C_k
+            self.freq[k] = C_k_dict
             k += 1
         print(self.freq)
 
@@ -133,6 +134,7 @@ if __name__ == '__main__':
     file = open('./datasets/test_dataset.csv', 'r', newline='')
     file = csv.reader(file)
     abs = AprioriBase(list(file), 0.4, 0.4)
+    abs.run()
 
 
 
