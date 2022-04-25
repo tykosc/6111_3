@@ -32,7 +32,6 @@ class Apriori:
 
         # generate frequent 1-itemsets along with trie representations
         self.freq[1]= self.get_f1_items()
-        print(self.freq)
 
     def get_f1_items(self) -> dict:
 
@@ -95,6 +94,38 @@ class AprioriBase(Apriori):
             self.freq[k] = C_k_dict
             k += 1
         print(self.freq)
+    
+    def generate_association_rules(self):
+        high_confidence_rules = {} # dictionary where the key is a tuple representing an association rule and val is a dictionary {'sup': 'conf': }
+        k = 2
+        while self.freq[k]: # while there exists large itemsets of size k
+            d = self.freq[k]
+            d_lhs = self.freq[1]
+            for key,val in d.items():
+                # generate all permutations of keys - permutation ('a', 'b', 'c') represents 'a' -> 'b', 'c'
+                perms = list(itertools.permutations(key))
+                print(perms)
+                for p in perms: 
+                # Calculate the confidence: supp(LUR)/supp(L) = v / d_lhs[p[0]]]
+                    print(p)
+                    print(type(p))
+                    conf = val / d_lhs[(p[0], )]
+                    if conf >= self.min_conf:
+                        # if confidence is high, add it to high confidence association rules
+                        high_confidence_rules[p] = {'sup': val, 'conf': conf}
+            k += 1
+        return high_confidence_rules
+
+    
+    def pprint_association_rules(self, rules):
+        for key, value in rules.items():
+            l = list(key)
+            lhs = [l[0]]
+            rhs = l[1:]
+            conf = f"{value['conf']:.0%}"
+            sup = f"{value['sup']:.0%}"
+            print(f'{lhs} ==> {rhs} (Conf: {conf}, Supp: {sup})')
+
 
     def apriori_gen(self, k) -> None:
         '''
@@ -135,6 +166,7 @@ if __name__ == '__main__':
     file = csv.reader(file)
     abs = AprioriBase(list(file), 0.4, 0.4)
     abs.run()
+    abs.pprint_association_rules(abs.generate_association_rules())
 
 
 
