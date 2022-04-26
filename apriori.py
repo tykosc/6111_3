@@ -100,19 +100,17 @@ class AprioriBase(Apriori):
         k = 2
         while self.freq[k]: # while there exists large itemsets of size k
             d = self.freq[k]
-            d_lhs = self.freq[1]
             for key,val in d.items():
-                # generate all permutations of keys - permutation ('a', 'b', 'c') represents 'a' -> 'b', 'c'
+                # generate all permutations of keys - permutation ('a', 'b', 'c') represents 'a', 'b' --> 'c'
                 perms = list(itertools.permutations(key))
-                print(perms)
+                d_lhs = self.freq[k-1]
                 for p in perms: 
                 # Calculate the confidence: supp(LUR)/supp(L) = v / d_lhs[p[0]]]
-                    print(p)
-                    print(type(p))
-                    conf = val / d_lhs[(p[0], )]
-                    if conf >= self.min_conf:
-                        # if confidence is high, add it to high confidence association rules
-                        high_confidence_rules[p] = {'sup': val, 'conf': conf}
+                    if d_lhs[p[0:len(p) - 1]] != 0: 
+                        conf = val / d_lhs[p[0:len(p) - 1]]
+                        if conf >= self.min_conf:
+                            # if confidence is high, add it to high confidence association rules
+                            high_confidence_rules[p] = {'sup': val, 'conf': conf}
             k += 1
         return high_confidence_rules
 
@@ -120,8 +118,8 @@ class AprioriBase(Apriori):
     def pprint_association_rules(self, rules):
         for key, value in rules.items():
             l = list(key)
-            lhs = [l[0]]
-            rhs = l[1:]
+            rhs = [l[-1]]
+            lhs = l[0:len(l) - 1]
             conf = f"{value['conf']:.0%}"
             sup = f"{value['sup']:.0%}"
             print(f'{lhs} ==> {rhs} (Conf: {conf}, Supp: {sup})')
@@ -162,9 +160,9 @@ class AprioriBase(Apriori):
 
 if __name__ == '__main__':
 
-    file = open('./datasets/test_dataset.csv', 'r', newline='')
+    file = open('./datasets/test_dataset2.csv', 'r', newline='')
     file = csv.reader(file)
-    abs = AprioriBase(list(file), 0.4, 0.4)
+    abs = AprioriBase(list(file), 0.7, 0.8)
     abs.run()
     abs.pprint_association_rules(abs.generate_association_rules())
 
