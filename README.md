@@ -82,6 +82,10 @@ https://data.cityofnewyork.us/Education/2017-2018-November2017-Avg-Class-Size-Sc
 
 ### Internal Design
 
+- Our program is driven by the `runner.py` file. This file is responsible for reading the CSV and feeding it to the `Apriori` algorithm (implemented in `apriori.py`)
+- `apriori.py` contains classes [ `Apriori` (Abstract) and `AprioriBase` (Implementation)] implementing the apriori algorithm. 
+- The apriori algorithm is structured according to the following pseudo-code (as described in the paper):
+
 ---
 
 ### Compelling Sample Run
