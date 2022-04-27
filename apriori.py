@@ -42,8 +42,9 @@ class Apriori:
 
         # TODO : Check if this is the right way to do it.
         # per Ullman lec - there should be only one pass on the dataset.
-        counts = { x : (y /len(self.d))  for x, y in counts.items() if (y / len(self.d)) >= self.min_sup }
+        counts = { x : (y /len(self.d))  for x, y in counts.items() if (y / len(self.d)) >= self.min_sup and x != ('',)}
         counts = OrderedDict(sorted(counts.items(), key = lambda t: t[0]))
+        print('counts', counts)
         return counts
 
     def run(self) -> None:
@@ -73,7 +74,11 @@ class AprioriBase(Apriori):
 
         k = 2
         while len(self.freq[k - 1]) > 0:
-            C_k = self.apriori_gen(k) # new candidates, this is a LIST of sets
+            old_C_k = self.apriori_gen(k) # new candidates, this is a LIST of sets
+            C_k = []
+            for tup in old_C_k:
+                if '' not in tup:
+                    C_k.append(tup)
             C_k_dict = defaultdict(int, {tuple(k): 0 for k in C_k}) # dictionary with tuples as keys  
             for t in self.d:
                 # C_t is a list that contains all items of C_k that are subsets of t
@@ -155,14 +160,14 @@ class AprioriBase(Apriori):
             if not rowflag:
                 c_k.append(tuple(row))
 
-        print(c_k)
+        #print(c_k)
         return list(c_k)
 
 if __name__ == '__main__':
 
-    file = open('./datasets/test_dataset2.csv', 'r', newline='')
+    file = open('./datasets/sqr2.csv', 'r', newline='')
     file = csv.reader(file)
-    abs = AprioriBase(list(file), 0.7, 0.8)
+    abs = AprioriBase(list(file), 0.3, 0.5) # support, confidence
     abs.run()
     abs.pprint_association_rules(abs.generate_association_rules())
 
