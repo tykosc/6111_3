@@ -9,11 +9,11 @@ import sys
 import csv
 import numpy as np
 
-from apriori import Apriori
+from apriori import AprioriBase
 
 filename = sys.argv[1]
-min_sup = sys.argv[2]
-min_conf = sys.argv[3]
+min_sup = float(sys.argv[2])
+min_conf = float(sys.argv[3])
 
 file = None
 try:
@@ -29,6 +29,7 @@ except FileNotFoundError:
 # TODO : insert pre-processing hooks here if the CSV needs
 # to be pre-processed
 reader = csv.reader(file)
-
-frequent_itemsets = Apriori(list(reader), min_sup, min_conf)
+frequent_itemsets = AprioriBase(list(reader), min_sup, min_conf)
+frequent_itemsets.run()
+frequent_itemsets.pprint_association_rules(frequent_itemsets.generate_association_rules())
 

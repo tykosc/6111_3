@@ -44,7 +44,7 @@ class Apriori:
         # per Ullman lec - there should be only one pass on the dataset.
         counts = { x : (y /len(self.d))  for x, y in counts.items() if (y / len(self.d)) >= self.min_sup and x != ('',)}
         counts = OrderedDict(sorted(counts.items(), key = lambda t: t[0]))
-        print('counts', counts)
+        #print('counts', counts)
         return counts
 
     def run(self) -> None:
@@ -98,8 +98,16 @@ class AprioriBase(Apriori):
             
             self.freq[k] = C_k_dict
             k += 1
-        print(self.freq)
+
+        self.ppfrequencies()
     
+    def ppfrequencies(self):
+        print("\nfrequent (i.e., large) itemsets : \n")
+        for k in self.freq.keys():
+            pfreq = OrderedDict(sorted(self.freq[k].items(), key=lambda item: (item[1]), reverse=True ))
+            for kr in pfreq.keys():
+                print(f'itemset : {kr} , support : {self.freq[k][kr]:.3%}')
+
     def generate_association_rules(self):
         high_confidence_rules = {} # dictionary where the key is a tuple representing an association rule and val is a dictionary {'sup': 'conf': }
         k = 2
@@ -121,6 +129,8 @@ class AprioriBase(Apriori):
 
     
     def pprint_association_rules(self, rules):
+        print(f"\nassociation rules mined : \n")
+        rules = OrderedDict(sorted(rules.items(), key=lambda item: (item[1]['sup'], item[1]['conf']), reverse=True ))
         for key, value in rules.items():
             l = list(key)
             rhs = [l[-1]]
@@ -128,6 +138,7 @@ class AprioriBase(Apriori):
             conf = f"{value['conf']:.0%}"
             sup = f"{value['sup']:.0%}"
             print(f'{lhs} ==> {rhs} (Conf: {conf}, Supp: {sup})')
+        print(f'\ntotal rules mined : {len(rules)}')
 
 
     def apriori_gen(self, k) -> None:
@@ -160,14 +171,13 @@ class AprioriBase(Apriori):
             if not rowflag:
                 c_k.append(tuple(row))
 
-        #print(c_k)
         return list(c_k)
 
 if __name__ == '__main__':
 
-    file = open('./datasets/sqr2.csv', 'r', newline='')
+    file = open('./datasets/test_dataset.csv', 'r', newline='')
     file = csv.reader(file)
-    abs = AprioriBase(list(file), 0.3, 0.5) # support, confidence
+    abs = AprioriBase(list(file), 0.01, 0.8) # support, confidence
     abs.run()
     abs.pprint_association_rules(abs.generate_association_rules())
 
