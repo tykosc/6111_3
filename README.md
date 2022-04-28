@@ -127,7 +127,7 @@ Note that per our dataset choice (mentioned above), we wanted to examine the nua
 
 (For non-medical emergencies)
 `Brooklyn (283-294 s) < Queens = Staten Island (294-333 s) < Manhattan = Bronx (333-336 s)`
-``
+
 
 
 This is an interesting result as it clearly indicates that emergency services (medical emergencies) in Manhattan were considerably slower (even a few second difference matters here) than rest of the New York Boroughs. This could be attributed due to the traffic in Manhattan or other reasons such as fewer emergency stations.
