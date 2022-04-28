@@ -1,0 +1,99 @@
+[run.sh] arguments :- 
+[run.sh] .csv file : [INTEGRATED-DATASET.csv]
+[run.sh] min_sup   : [0.01]
+[run.sh] min_conf  : [0.7]
+
+[run.sh] executing python script : runner.py
+
+frequent (i.e., large) itemsets : 
+
+itemset : ('Medical Emergencies',) , support : 47.476%
+itemset : ('NonMedical Emergencies',) , support : 41.435%
+itemset : ('response time 222-283s',) , support : 32.128%
+itemset : ('Brooklyn',) , support : 28.211%
+itemset : ('Manhattan',) , support : 27.068%
+itemset : ('response time 283-294s',) , support : 24.011%
+itemset : ('response time 294-333s',) , support : 23.560%
+itemset : ('response time 333-336s',) , support : 20.301%
+itemset : ('Bronx',) , support : 20.081%
+itemset : ('Queens',) , support : 19.789%
+itemset : ('Staten Island',) , support : 4.852%
+itemset : ('Structural Fires',) , support : 4.454%
+itemset : ('False Alarm',) , support : 3.474%
+itemset : ('NonStructural Fires',) , support : 2.681%
+itemset : ('Medical Emergencies', 'response time 222-283s') , support : 25.372%
+itemset : ('NonMedical Emergencies', 'response time 333-336s') , support : 20.301%
+itemset : ('Brooklyn', 'response time 222-283s') , support : 16.743%
+itemset : ('Manhattan', 'response time 294-333s') , support : 13.802%
+itemset : ('Brooklyn', 'Medical Emergencies') , support : 13.448%
+itemset : ('Manhattan', 'Medical Emergencies') , support : 12.986%
+itemset : ('Medical Emergencies', 'response time 294-333s') , support : 12.986%
+itemset : ('Manhattan', 'NonMedical Emergencies') , support : 11.607%
+itemset : ('Manhattan', 'response time 333-336s') , support : 11.607%
+itemset : ('Brooklyn', 'NonMedical Emergencies') , support : 11.467%
+itemset : ('Brooklyn', 'response time 283-294s') , support : 11.467%
+itemset : ('NonMedical Emergencies', 'response time 283-294s') , support : 11.467%
+itemset : ('Queens', 'response time 222-283s') , support : 10.572%
+itemset : ('Bronx', 'response time 283-294s') , support : 10.299%
+itemset : ('NonMedical Emergencies', 'response time 294-333s') , support : 9.666%
+itemset : ('Medical Emergencies', 'Queens') , support : 9.656%
+itemset : ('Bronx', 'Medical Emergencies') , support : 9.119%
+itemset : ('Medical Emergencies', 'response time 283-294s') , support : 9.119%
+itemset : ('Bronx', 'NonMedical Emergencies') , support : 8.694%
+itemset : ('Bronx', 'response time 333-336s') , support : 8.694%
+itemset : ('NonMedical Emergencies', 'Queens') , support : 7.679%
+itemset : ('Queens', 'response time 294-333s') , support : 7.679%
+itemset : ('Structural Fires', 'response time 222-283s') , support : 4.454%
+itemset : ('Staten Island', 'response time 222-283s') , support : 2.848%
+itemset : ('Medical Emergencies', 'Staten Island') , support : 2.268%
+itemset : ('NonMedical Emergencies', 'Staten Island') , support : 1.987%
+itemset : ('Staten Island', 'response time 294-333s') , support : 1.987%
+itemset : ('NonStructural Fires', 'response time 283-294s') , support : 1.730%
+itemset : ('False Alarm', 'response time 283-294s') , support : 1.572%
+itemset : ('Queens', 'response time 283-294s') , support : 1.537%
+itemset : ('Brooklyn', 'Structural Fires') , support : 1.358%
+itemset : ('False Alarm', 'response time 222-283s') , support : 1.201%
+itemset : ('Brooklyn', 'Medical Emergencies', 'response time 222-283s') , support : 13.448%
+itemset : ('Manhattan', 'Medical Emergencies', 'response time 294-333s') , support : 12.986%
+itemset : ('Manhattan', 'NonMedical Emergencies', 'response time 333-336s') , support : 11.607%
+itemset : ('Brooklyn', 'NonMedical Emergencies', 'response time 283-294s') , support : 11.467%
+itemset : ('Medical Emergencies', 'Queens', 'response time 222-283s') , support : 9.656%
+itemset : ('Bronx', 'Medical Emergencies', 'response time 283-294s') , support : 9.119%
+itemset : ('Bronx', 'NonMedical Emergencies', 'response time 333-336s') , support : 8.694%
+itemset : ('NonMedical Emergencies', 'Queens', 'response time 294-333s') , support : 7.679%
+itemset : ('Medical Emergencies', 'Staten Island', 'response time 222-283s') , support : 2.268%
+itemset : ('NonMedical Emergencies', 'Staten Island', 'response time 294-333s') , support : 1.987%
+itemset : ('Brooklyn', 'Structural Fires', 'response time 222-283s') , support : 1.358%
+
+association rules mined : 
+
+['response time 222-283s'] ==> ['Medical Emergencies'] (Conf: 79%, Supp: 25%)
+['response time 333-336s'] ==> ['NonMedical Emergencies'] (Conf: 100%, Supp: 20%)
+['Brooklyn', 'Medical Emergencies'] ==> ['response time 222-283s'] (Conf: 100%, Supp: 13%)
+['Brooklyn', 'response time 222-283s'] ==> ['Medical Emergencies'] (Conf: 80%, Supp: 13%)
+['Manhattan', 'Medical Emergencies'] ==> ['response time 294-333s'] (Conf: 100%, Supp: 13%)
+['Medical Emergencies', 'response time 294-333s'] ==> ['Manhattan'] (Conf: 100%, Supp: 13%)
+['Manhattan', 'response time 294-333s'] ==> ['Medical Emergencies'] (Conf: 94%, Supp: 13%)
+['Manhattan', 'NonMedical Emergencies'] ==> ['response time 333-336s'] (Conf: 100%, Supp: 12%)
+['Manhattan', 'response time 333-336s'] ==> ['NonMedical Emergencies'] (Conf: 100%, Supp: 12%)
+['Brooklyn', 'NonMedical Emergencies'] ==> ['response time 283-294s'] (Conf: 100%, Supp: 11%)
+['Brooklyn', 'response time 283-294s'] ==> ['NonMedical Emergencies'] (Conf: 100%, Supp: 11%)
+['NonMedical Emergencies', 'response time 283-294s'] ==> ['Brooklyn'] (Conf: 100%, Supp: 11%)
+['Medical Emergencies', 'Queens'] ==> ['response time 222-283s'] (Conf: 100%, Supp: 10%)
+['Queens', 'response time 222-283s'] ==> ['Medical Emergencies'] (Conf: 91%, Supp: 10%)
+['Bronx', 'Medical Emergencies'] ==> ['response time 283-294s'] (Conf: 100%, Supp: 9%)
+['Medical Emergencies', 'response time 283-294s'] ==> ['Bronx'] (Conf: 100%, Supp: 9%)
+['Bronx', 'response time 283-294s'] ==> ['Medical Emergencies'] (Conf: 89%, Supp: 9%)
+['Bronx', 'NonMedical Emergencies'] ==> ['response time 333-336s'] (Conf: 100%, Supp: 9%)
+['Bronx', 'response time 333-336s'] ==> ['NonMedical Emergencies'] (Conf: 100%, Supp: 9%)
+['NonMedical Emergencies', 'Queens'] ==> ['response time 294-333s'] (Conf: 100%, Supp: 8%)
+['Queens', 'response time 294-333s'] ==> ['NonMedical Emergencies'] (Conf: 100%, Supp: 8%)
+['NonMedical Emergencies', 'response time 294-333s'] ==> ['Queens'] (Conf: 79%, Supp: 8%)
+['Structural Fires'] ==> ['response time 222-283s'] (Conf: 100%, Supp: 4%)
+['Medical Emergencies', 'Staten Island'] ==> ['response time 222-283s'] (Conf: 100%, Supp: 2%)
+['Staten Island', 'response time 222-283s'] ==> ['Medical Emergencies'] (Conf: 80%, Supp: 2%)
+['NonMedical Emergencies', 'Staten Island'] ==> ['response time 294-333s'] (Conf: 100%, Supp: 2%)
+['Staten Island', 'response time 294-333s'] ==> ['NonMedical Emergencies'] (Conf: 100%, Supp: 2%)
+['Brooklyn', 'Structural Fires'] ==> ['response time 222-283s'] (Conf: 100%, Supp: 1%)
+
+total rules mined : 28

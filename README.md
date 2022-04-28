@@ -93,13 +93,60 @@ Link: https://data.cityofnewyork.us/Social-Services/FDNY-Monthly-Response-Times/
 
 - Our program is driven by the `runner.py` file. This file is responsible for reading the CSV and feeding it to the `Apriori` algorithm (implemented in `apriori.py`)
 - `apriori.py` contains classes [ `Apriori` (Abstract) and `AprioriBase` (Implementation)] implementing the apriori algorithm. 
-- The apriori algorithm is structured according to the following pseudo-code (as described in the paper):
+- The apriori algorithm is structured according to the pseudo-code in [fig. 1](http://www.cs.columbia.edu/~gravano/Qual/Papers/agrawal94.pdf) of Fast Algorithms for Mining Association Rules (Agrawal, Srikant)
+- We first begin by initializing all `1-itemsets` for the dataset via the method `get_f1_items`. This method is called once during initialization of the algorithm.
+- `run` method encapsulates the main apriori algorithm. This method loops through possible values of `k` and generated candidates `C_k` using the apriori algorithm
+- `run` internally calls `apriori_gen` which is responsible for joining the `c_{k-1}` sets to generate candidate `c_{k}` itemsets using the `sql` query mentioned in the paper.
+- `generate_association_rules` is a function to carry out the final step of generating the association rules for the frequent itemsets generated. 
+- methods `ppfrequencies`, `pprint_association_rules` are utility methods to print formatted text to standard output.
+
+*Variation*
+- We implement the algorithm from [fig. 1](http://www.cs.columbia.edu/~gravano/Qual/Papers/agrawal94.pdf) while handling speacial bucketing for continuous time values.
+- We bucket the average response times into 4 quantiles [(222-283s, 283-294s, 294-333s, 333-336s)] (using [pd.cut](https://pandas.pydata.org/docs/reference/api/pandas.cut.html)) in order to better infer the association rules involving the response times.
 
 ---
 
 ### Compelling Sample Run
 
+Use the following command specification for a compelling sample run.
+- `min_sup`: 0.01
+- `min_conf`: 0.7
+- `dataset` : INTEGRATED-DATASET.csv
+
+```zsh
+root@ee903ca282f7:/workspaces/6111_3$ ./run.sh INTEGRATED-DATASET.csv 0.01 0.7
+```
+*Explaination*
+
+Note that per our dataset choice (mentioned above), we wanted to examine the nuances between the FDNY response times for different Boroughs of New York City. Per our investigation, following were the observations we found:
+
+- Response Times for ambulance services followed the following trend:
+(For medical emergencies):
+
+`Brooklyn = Queens = Staten Island (222-283 s) < Bronx (283-294 s)< Manhattan (294-333 s)`
+
+(For non-medical emergencies)
+`Brooklyn (283-294 s) < Queens = Staten Island (294-333 s) < Manhattan = Bronx (333-336 s)`
+``
+
+
+This is an interesting result as it clearly indicates that emergency services (medical emergencies) in Manhattan were considerably slower (even a few second difference matters here) than rest of the New York Boroughs. This could be attributed due to the traffic in Manhattan or other reasons such as fewer emergency stations.
+
+Also, another intersting fact that can be seen is that the FDNY does a good job in prioritizing tasks in the sens that medical emergencies are adressed to quicker than non-medical emergencies in general.
+
+*Output Example*
+```
+['response time 222-283s'] ==> ['Medical Emergencies'] (Conf: 79%, Supp: 25%)
+['response time 333-336s'] ==> ['NonMedical Emergencies'] (Conf: 100%, Supp: 20%)
+['Brooklyn', 'Medical Emergencies'] ==> ['response time 222-283s'] (Conf: 100%, Supp: 13%)
+'Manhattan', 'Medical Emergencies'] ==> ['response time 294-333s'] (Conf: 100%, Supp: 13%)
+.
+.
+```
+Note : This is not the complete output. Please refer to the `example-run.txt` file for the complete output.
+
 ---
 
 ### Other
 
+The `.ipynb` files present in this project are a code description of all the pre-processing steps we carried out.
