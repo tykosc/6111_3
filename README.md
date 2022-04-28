@@ -60,23 +60,32 @@ nm3223@cs6111-p1-instance:~/$ source ~/.venv/bin/activate
 
 - **Which NYC Open Dataset(s)**
 
-We choose the following datasets to construct the final `INTEGRATED_DATASET.csv`:
+We choose the following dataset to construct the final `INTEGRATED_DATASET.csv`:
 
-1. 2017 - 2018 Schools NYPD Crime Data Report : 
-https://data.cityofnewyork.us/Education/2017-2018-Schools-NYPD-Crime-Data-Report/kwvk-z7i9
-2. 2017 - 2018 Current Year Monthly Attendence : 
-https://data.cityofnewyork.us/Education/2017-2018-Current-Year-Monthly-Attendance/7u63-ib3x
-3. 2017 - 2018 November2017 Avg Class Size School PTR - Open Data Portal : 
-https://data.cityofnewyork.us/Education/2017-2018-November2017-Avg-Class-Size-School-PTR-O/szn6-bbuk
+FDNY Monthly Response Times: Average response times to incidents by Year, Month, Incident classification and borough.
+
+Link: https://data.cityofnewyork.us/Social-Services/FDNY-Monthly-Response-Times/j34j-vqvt
+
 
 - **Mapping Process**
-    1. Note that each of these datasets has a column named `DBN`, which is a unique identifier for a school. We use this column to perform a join across these datasets to get a more diversified dataset with respect to School Crimes, Attendence and Student/Teacher Ratio. Note that since all these datasets are for the same year and for roughly the same schools, joining them does not add a lot of variance ...
-    2. For the first dataset ...
-    3. For the second dataset ...
-    4. For the third dataset ...
-    5. Our final dataset has the columns ... and has ... rows.
+  
+  Our goal was for every row of the dataset to correspond to one emergency incident from the year 2017. 
+
+  Steps: 
+  1. Select rows that correspond to the year 2017.  
+  2. Filter out rows where an incident is 'All Fire/Emergency Incidents' or the borough is 'Citywide', as these rows are aggregates of other rows. 
+  3. Duplicate all remaining rows by the number of INCIDENTCOUNT for that row, so that we have one row per incident
+  4. Convert average response time to number of seconds
+  5. Bucket average response time into four quartiles 
+  6. Select the columns INCIDENTCLASSIFICATION, which corresponds to the type of incident 'False Alarm, Fire, Medical, etc.', INCIDENTBOROUGH, which corresponds to the borough, and 'AVERAGERESPONSETIME', which describes avg. response time range for the event
+  7. Our final dataset contained 585,368 rows
+    
 
 - **Choice of Dataset**
+
+  We chose this dataset because it is very important for a neighborhood to have fast emergency services, and small differences in response time could be the difference between life and death. We thought that it would be interesting to know if the average response time would differ between different boroughs, and whether different types of emergencies were more likely in ceratin boroughs, or whether certain types of emergencies had significantly different response times. 
+  
+  Another reason we chose this dataset is that it was very large, and allowed us to generate high confidence rules with good support as well.  
 
 ---
 
