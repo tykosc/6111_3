@@ -40,8 +40,6 @@ class Apriori:
             for item in txn:
                 counts[(item, )] += 1
 
-        # TODO : Check if this is the right way to do it.
-        # per Ullman lec - there should be only one pass on the dataset.
         counts = { x : (y /len(self.d))  for x, y in counts.items() if (y / len(self.d)) >= self.min_sup and x != ('',)}
         counts = OrderedDict(sorted(counts.items(), key = lambda t: t[0]))
         #print('counts', counts)

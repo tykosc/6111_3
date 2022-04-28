@@ -26,8 +26,6 @@ except FileNotFoundError:
         print('File not found')
         exit(1)
 
-# TODO : insert pre-processing hooks here if the CSV needs
-# to be pre-processed
 reader = csv.reader(file)
 frequent_itemsets = AprioriBase(list(reader), min_sup, min_conf)
 frequent_itemsets.run()
