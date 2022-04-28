@@ -83,7 +83,7 @@ Link: https://data.cityofnewyork.us/Social-Services/FDNY-Monthly-Response-Times/
 
 - **Choice of Dataset**
 
-  We chose this dataset because it is very important for a neighborhood to have fast emergency services, and small differences in response time could be the difference between life and death. We thought that it would be interesting to know if the average response time would differ between different boroughs, and whether different types of emergencies were more likely in ceratin boroughs, or whether certain types of emergencies had significantly different response times. 
+  We chose this dataset because it is very important for a neighborhood to have fast emergency services, and small differences in response time could be the difference between life and death. We thought that it would be interesting to know if the average response time would differ between different boroughs, and whether different types of emergencies were associated with ceratin boroughs, or whether certain types of emergencies were associated with different response times. 
   
   Another reason we chose this dataset is that it was very large, and allowed us to generate high confidence rules with good support as well.  
 
