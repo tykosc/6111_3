@@ -38,8 +38,8 @@
 *Running Locally*
 
 ```zsh
-root@ee903ca282f7:/workspaces/$ tar -xvzf 611_3.tar.gz
-root@ee903ca282f7:/workspaces/$ cd 6111_3
+root@ee903ca282f7:/workspaces/$ tar -xvzf proj3.tar.gz
+root@ee903ca282f7:/workspaces/$ cd proj3
 root@ee903ca282f7:/workspaces/6111_3$ pip install -r requirements.txt
 root@ee903ca282f7:/workspaces/6111_3$ chmod +x run.sh
 root@ee903ca282f7:/workspaces/6111_3$ ./run.sh INTEGRATEED_DATASET.csv <min_sup> <min_conf>
