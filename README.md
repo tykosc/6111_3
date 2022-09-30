@@ -1,4 +1,4 @@
-**Project 2 : COMS 6111 : Advanced Database Systems (Spring 2022)**
+
 
 ---
   - [Team](#team)
